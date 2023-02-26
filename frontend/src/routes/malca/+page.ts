@@ -8,7 +8,7 @@ export const csr = dev;
 // it so that it gets served as a static asset in production
 export const prerender = true;
 
-import { supabase } from "$lib/supabaseClient";
+/*import { supabase } from "$lib/supabaseClient";
 import { toRestaurantType, type Menu, type MenuItem, type Restaurant } from './model';
 
 export async function load() {
@@ -28,4 +28,4 @@ export async function load() {
         all_data: data ?? [],
         today_data: data_today ?? [],
     };
-}
+}*/

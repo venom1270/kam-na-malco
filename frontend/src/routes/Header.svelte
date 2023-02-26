@@ -6,7 +6,7 @@
 
 <header>
 	<div class="corner">
-		corner
+		🍴🤔
 	</div>
 
 	<nav>
@@ -27,7 +27,9 @@
 	</nav>
 
 	<div class="corner">
-		corner desno
+		<a href="https://github.com/venom1270/kam-na-malco">
+			<img src={github} alt="GitHub" />
+		</a>
 	</div>
 </header>
 

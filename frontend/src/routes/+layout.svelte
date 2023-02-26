@@ -11,7 +11,7 @@
 	</main>
 
 	<footer>
-		<p>footer</p>
+		<p>🍴🍗🍟🍔🍕🍜🍲🍩🥐🥞🍝😋🍴</p>
 	</footer>
 </div>
 
