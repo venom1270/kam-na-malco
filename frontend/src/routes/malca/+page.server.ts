@@ -13,8 +13,6 @@ export async function load() {
         await (await supabase.from("Restaurant").select("id, name, Menu(*, MenuItem(*))").eq("Menu.date", currentDate)).data
     );
 
-    console.log(data_today);
-
     return {
         today_data: data_today ?? [],
     };
