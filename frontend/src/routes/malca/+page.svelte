@@ -1,27 +1,13 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import type { Restaurant } from "./model";
+	import { invalidateAll } from "$app/navigation";
+
+	function reloadData() {
+		invalidateAll();
+	}
 
 
-
-	/*import { supabase } from '$lib/supabaseClient'
-	import { invalidate } from '$app/navigation'
-	import { onMount } from 'svelte'
-	import './styles.css'
-
-	onMount(() => {
-		const {
-		data: { subscription },
-		} = supabase.auth.onAuthStateChange(() => {
-		invalidate('supabase:auth')
-		})
-
-		return () => {
-		subscription.unsubscribe()
-		}
-	})*/
-
-	//export let data: [{id: number, name: string}];
 	export let data: PageData;
 	let restaurants: Restaurant[] = data.today_data;
 	console.log(restaurants)
@@ -36,7 +22,8 @@
 </svelte:head>
 
 <div class="text-column">
-	<h1>Meniji danes</h1>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<h1>Meniji danes <span style="cursor: pointer;" on:click={reloadData}>🔃</span></h1>
 
 	{#each restaurants as restaurant}
 		<div>

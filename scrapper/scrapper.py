@@ -4,26 +4,24 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from supabase import create_client, Client
 from supabase.lib.client_options import ClientOptions
+from models.model import Restaurant, MenuItem
 
+def fresco() -> Restaurant:
+    today = datetime.now().strftime("%Y-%m-%d")
+    r = requests.get('https://jedilnik.fresco.si/vnos_jedilnika/json?datum=' + today, 
+                    headers={'Accept': 'application/json'}, verify=False)
+    json = r.json()
+    menuList = []
+    if json is not None and 'jedilnik' in json:
+        menu = json['jedilnik'][0]
+        for i in range(1, int(len(menu)/2)):
+            s1 = 'meni' + str(i)
+            s2 = 'cena' + str(i)
+            price = menu[s2]
+            price = price.split("/")[0].replace(",", ".")
+            menuList.append(MenuItem('Meni ' + str(i), menu[s1], float(price)))
 
-class MenuItem:
-    def __init__(self, title, food, price: float):
-        self.title = title
-        self.food = food
-        self.price = price
-
-class Restaurant:
-    def __init__(self, name, menuItems: list[MenuItem]):
-        self.name = name
-        self.menuItems = menuItems
-
-    def print(self):
-        print("*** %s ***" % self.name)
-        for i in self.menuItems:
-            print("%s: %s (%s)" % (i.title, i.food, i.price))
-        print()
-
-
+    return Restaurant('Fresco', menuList)
 
 def orient() -> Restaurant:
 
@@ -55,9 +53,9 @@ def orient() -> Restaurant:
 
     return Restaurant('Orient', menuList)
 
+
 url: str = 'https://vatjtbqrtapdltmsodjv.supabase.co'
 key: str = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhdGp0YnFydGFwZGx0bXNvZGp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY5MDA1MjksImV4cCI6MTk5MjQ3NjUyOX0.QMmwy24FvfpEQJCp42iD7a1pffNbGLPBCEB2awOiXJk'
-
 
 c = ClientOptions()
 c.headers['prefer'] = 'ewq'
@@ -65,28 +63,7 @@ print(c.headers)
 
 supabase: Client = create_client(url, key, c)
 
-r = supabase.from_('Restaurant').select("*").execute()
-#ret = supabase.from_('Restaurant').insert({'name': 'Testna restavracija'}).execute()
-
-
-for row in r:
-    print(row)
-
-
-def fresco() -> Restaurant:
-    r = requests.get('https://jedilnik.fresco.si/vnos_jedilnika/json?datum=2023-02-16', 
-                    headers={'Accept': 'application/json'}, verify=False)
-    json = r.json()
-    menu = json['jedilnik'][0]
-    menuList = []
-    for i in range(1, 14):
-        s1 = 'meni' + str(i)
-        s2 = 'cena' + str(i)
-        price = menu[s2]
-        price = price.split("/")[0].replace(",", ".")
-        menuList.append(MenuItem('Meni ' + str(i), menu[s1], float(price)))
-    return Restaurant('Fresco', menuList)
-
+today = datetime.now().strftime("%Y-%m-%d")
 
 restaurants = [("Fresco", fresco()), ("Orient Express", orient())]
 for (name, r) in restaurants:
@@ -97,7 +74,7 @@ for (name, r) in restaurants:
     print(restaurant_id)
 
     add_to_db = False
-    today = datetime.now().strftime("%Y-%m-%d")
+    # today = datetime.now().strftime("%Y-%m-%d")
     today_menu = supabase.table("Menu").select("*").eq("date", today).eq("id_restaurant", restaurant_id).execute()
     if len(today_menu.data) == 0:
         add_to_db = True
@@ -115,6 +92,3 @@ for (name, r) in restaurants:
     item: MenuItem
     for item in r.menuItems:
         res = supabase.table("MenuItem").insert({"id_menu": menu_id, "name": item.title, "food": item.food, "price": item.price}).execute()
-
-
-    ret = supabase.from_('Restaurant').insert({'name': 'Testna restavracija'}).execute()
