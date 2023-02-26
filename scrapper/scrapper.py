@@ -92,3 +92,4 @@ for (name, r) in restaurants:
     item: MenuItem
     for item in r.menuItems:
         res = supabase.table("MenuItem").insert({"id_menu": menu_id, "name": item.title, "food": item.food, "price": item.price}).execute()
+        
