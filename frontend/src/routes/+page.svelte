@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Kam na mal'co</title>
 	<meta name="description" content="Kam na mal'co app" />
 </svelte:head>
 
