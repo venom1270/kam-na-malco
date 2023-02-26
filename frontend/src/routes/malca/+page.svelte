@@ -4,13 +4,13 @@
 	import { invalidateAll } from "$app/navigation";
 
 	function reloadData() {
+		console.log("Reloading...")
 		invalidateAll();
 	}
 
 
 	export let data: PageData;
 	let restaurants: Restaurant[] = data.today_data;
-	console.log(restaurants)
     $: (restaurants = data.today_data);
 
 </script>
