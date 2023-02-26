@@ -47,7 +47,7 @@
 			{:else}
 				<ul>
 					{#each restaurant.menus[0].items as item}
-						<li>{item.name}: {item.food} ({item.price})</li>
+						<li><i>{item.name}:</i> {item.food} <strong>{item.price}€</strong></li>
 					{/each}
 				</ul>
 			{/if}
