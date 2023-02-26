@@ -27,7 +27,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/venom1270/kam-na-malco">
+		<a href="https://github.com/venom1270/kam-na-malco" target="_blank" rel="noreferrer">
 			<img src={github} alt="GitHub" />
 		</a>
 	</div>
