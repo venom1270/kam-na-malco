@@ -1,8 +1,9 @@
 class MenuItem:
-    def __init__(self, title, food, price: float):
+    def __init__(self, title, food, price: float, image_url: str):
         self.title = title
         self.food = food
         self.price = price
+        self.image_url = image_url
 
 class Restaurant:
     def __init__(self, name, menuItems: list[MenuItem]):

@@ -5,6 +5,75 @@ from bs4 import BeautifulSoup
 from supabase import create_client, Client
 from supabase.lib.client_options import ClientOptions
 from models.model import Restaurant, MenuItem
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+import urllib.parse
+import random
+import time
+
+
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--incognito')
+options.add_argument('--headless')
+driver = webdriver.Chrome(options=options)
+
+def find_image(food: str) -> str:
+    url = 'https://www.google.si/search?q={}&tbm=isch'.format(urllib.parse.quote(food))
+    driver.get(url)
+    try:
+        cookies_element = driver.find_element(By.XPATH, "//button[@aria-label='Sprejmi vse']")
+        if cookies_element is not None:
+            print("Clicking cookies element...")
+            cookies_element.click()
+            time.sleep(3)
+    except:
+        # No cookies to accept :)
+        pass
+          
+    try:
+        random_time = random.randrange(1000, 10000) / 1000.0
+        print("Sleeping for random time ({})... Searching for [{}]".format(random_time, food))
+        time.sleep(random_time)
+
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        first_image_div = soup.find('div', {"data-ri": "0"})
+        first_image = first_image_div.find('img')
+        image_url = first_image.get('src')
+        # print(image_url)
+        print("Got image url")
+
+        return image_url
+    except Exception as e:
+        print("Execption")
+        print(e)
+        return None
+
+
+def find_image_duckduck(food: str) -> str:
+    url = 'https://duckduckgo.com/?ia=images&iax=images&q=' + urllib.parse.quote(food)
+    driver.get(url)
+
+    try:
+        random_time = random.randrange(1000, 10000) / 1000.0
+        print("Sleeping for random time ({})... Searching for [{}]".format(random_time, food))
+        time.sleep(random_time)
+
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        #print(soup.contents)
+        
+        images_div = soup.find('div', class_='tile-wrap')
+        first_image = images_div.find('img')
+        image_url = 'https:' + first_image.get('src')
+        #print(first_image)
+        print("image_url")
+
+        return image_url
+    except:
+        return None
+
+
 
 def fresco() -> Restaurant:
     today = datetime.now().strftime("%Y-%m-%d")
@@ -19,7 +88,8 @@ def fresco() -> Restaurant:
             s2 = 'cena' + str(i)
             price = menu[s2]
             price = price.split("/")[0].replace(",", ".")
-            menuList.append(MenuItem('Meni ' + str(i), menu[s1], float(price)))
+            image_url = find_image(menu[s1])
+            menuList.append(MenuItem('Meni ' + str(i), menu[s1], float(price), image_url))
 
     return Restaurant('Fresco', menuList)
 
@@ -47,11 +117,16 @@ def orient() -> Restaurant:
 
     for i in range(1, len(items)):
         s = "Meni " + str(i)
-        menuList.append(MenuItem(s, items[i].text, 6.5))
+        image_url = find_image(items[i].text)
+        menuList.append(MenuItem(s, items[i].text, 6.5, image_url))
 
 
 
     return Restaurant('Orient', menuList)
+
+
+#find_image_google("Golaž")
+
 
 
 url: str = 'https://vatjtbqrtapdltmsodjv.supabase.co'
@@ -66,6 +141,8 @@ supabase: Client = create_client(url, key, c)
 today = datetime.now().strftime("%Y-%m-%d")
 
 restaurants = [("Fresco", fresco()), ("Orient Express", orient())]
+
+
 for (name, r) in restaurants:
     r.print()
 
@@ -91,5 +168,5 @@ for (name, r) in restaurants:
 
     item: MenuItem
     for item in r.menuItems:
-        res = supabase.table("MenuItem").insert({"id_menu": menu_id, "name": item.title, "food": item.food, "price": item.price}).execute()
+        res = supabase.table("MenuItem").insert({"id_menu": menu_id, "name": item.title, "food": item.food, "price": item.price, "image_url": item.image_url}).execute()
         
