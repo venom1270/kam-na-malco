@@ -15,7 +15,8 @@ export type MenuItem = {
     name: string,
     price: number,
     id_menu: number,
-    food: string
+    food: string,
+    image_url: string,
 }
 
 export function toRestaurantType(data: any) : Restaurant[] {

@@ -102,3 +102,7 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+.hoverImg span { position:relative; }
+.hoverImg span span { position:absolute; display:none; z-index:99; margin-left: -200px; }
+.hoverImg span:hover span { display:block; }

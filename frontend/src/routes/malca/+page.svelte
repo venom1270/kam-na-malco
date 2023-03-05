@@ -34,7 +34,12 @@
 			{:else}
 				<ul>
 					{#each restaurant.menus[0].items as item}
-						<li><i>{item.name}:</i> {item.food} <strong>{item.price}€</strong></li>
+						<li class="hoverImg">
+							<span>
+							<i>{item.name}:</i> {item.food} <strong>{item.price}€</strong>
+							<span><img src="{item.image_url}" alt="" height="100" /></span>
+							</span>
+						</li>
 					{/each}
 				</ul>
 			{/if}
