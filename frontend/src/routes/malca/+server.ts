@@ -69,12 +69,12 @@ export async function POST({ request, cookies }) {
     try {
         data = await openai.createChatCompletion(openAiRequest)
       } catch (error) {
-        if (error.response) {
+        /*if (error.response) {
             console.log(error.response.status);
             console.log(error.response.data);
         } else {
             console.log(error.message);
-        }
+        }*/
         return json(error);
       }
 
