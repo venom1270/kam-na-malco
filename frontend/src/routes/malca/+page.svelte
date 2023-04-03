@@ -23,7 +23,7 @@
 
 		let responseData = await response.json()
 		console.log(responseData);
-		aiResponse = responseData;
+		aiResponse = responseData.data?.data.choices.completion_data[0].message?.content;
 		
 	}
 

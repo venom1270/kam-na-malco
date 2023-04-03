@@ -73,13 +73,15 @@ export async function POST({ request, cookies }) {
       data = null;
     }
 
-    let completion_data = data?.data.choices;
+    return json(data);
+
+    /*let completion_data = data?.data.choices;
     console.log(completion_data);
   
     let aiResponse = completion_data[0].message?.content;
     console.log(aiResponse);
 
-    return json(aiResponse);
+    return json(aiResponse);*/
 
 }
 
