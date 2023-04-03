@@ -67,6 +67,7 @@ export async function POST({ request, cookies }) {
     }
     //data = await openai.createChatCompletion(openAiRequest)
   
+    
     //console.log(data);
   
     if (data === undefined) {
