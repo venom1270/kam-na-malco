@@ -65,7 +65,7 @@ export async function POST({ request, cookies }) {
         max_tokens: 250,
         temperature: 0.5
     }
-    data = await openai.createChatCompletion(openAiRequest)
+    //data = await openai.createChatCompletion(openAiRequest)
   
     //console.log(data);
   
