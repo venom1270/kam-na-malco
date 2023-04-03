@@ -3,7 +3,7 @@ import { Configuration, OpenAIApi, CreateChatCompletionRequest, ChatCompletionRe
 import { OPENAI_API_KEY } from '$env/static/private'
 import { toRestaurantType, type Restaurant } from "./model";
 import { supabase } from "$lib/supabaseClient";
-import { toUserType, type User } from "../../../../../../../../Users/zigsi/Desktop/Kam na malco/frontend/src/routes/login/model";
+import { toUserType, type User } from "../login/model";
 
 const configuration = new Configuration({
     apiKey: OPENAI_API_KEY,
