@@ -65,9 +65,13 @@ export async function POST({ request, cookies }) {
         max_tokens: 250,
         temperature: 0.5
     }
-    //data = await openai.createChatCompletion(openAiRequest)
-  
-    
+
+    try {
+        data = await openai.createChatCompletion(openAiRequest)
+      } catch (error) {
+        return json(error);
+      }
+
     //console.log(data);
   
     if (data === undefined) {
