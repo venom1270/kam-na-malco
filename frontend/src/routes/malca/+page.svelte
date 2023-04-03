@@ -8,10 +8,31 @@
 		invalidateAll();
 	}
 
+	let prompt = "";
+
+	async function tryPrompt() {
+		console.log(data.user)
+		const response = await fetch('/malca', {
+			method: 'POST',
+			body: JSON.stringify({ prompt, "username": data.user.name }),
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+
+
+		let responseData = await response.json()
+		console.log(responseData);
+		aiResponse = responseData;
+		
+	}
+
 
 	export let data: PageData;
 	let restaurants: Restaurant[] = data.today_data;
     $: (restaurants = data.today_data);
+
+	let aiResponse = "Tukaj bo odgovor pomočnika";
 
 </script>
 
@@ -23,6 +44,18 @@
 
 <div class="text-column">
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
+
+	{#if data.user != undefined}
+		<input type="text" placeholder="Kaj bi radi jedli?" bind:value={prompt} /><br/>
+		<input type="button" value="Svetuj!" on:click={tryPrompt} />
+		<br>
+		<code style="font-size: 20px;">{aiResponse}</code>
+	{:else}
+		<code>Prijavite se za uporabo pomočnika!</code>
+	{/if}
+
+	
+
 	<h1>Meniji danes <span style="cursor: pointer;" on:click={reloadData}>🔃</span></h1>
 
 	{#each restaurants as restaurant}

@@ -19,6 +19,7 @@
 	<ul>
 		<li><a href="https://fresco.si/" target="_blank" rel="noreferrer">Fresco</a></li>
 		<li><a href="http://restavracija-oe.si/" target="_blank" rel="noreferrer">Orient Express</a></li>
+		<li><a href="http://www.rozaslon.si/" target="_blank" rel="noreferrer">Roza slon</a></li>
 	</ul>
 
 

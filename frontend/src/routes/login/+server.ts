@@ -1,11 +1,14 @@
 import { error, json } from '@sveltejs/kit';
 import { supabase } from "$lib/supabaseClient";
 import { User, toUserType } from './model';
+import type { RequestEvent } from '../$types';
  
 /** @type {import('./$types').RequestHandler} */
-export async function POST({ request }) {
+export async function POST({ request } : RequestEvent) {
   /*const username = String(url.searchParams.get('username') ?? 'admin');
   const password = String(url.searchParams.get('password') ?? 'admin');*/
+
+  console.log(request);
 
   const { username, password } = await request.json();
  
@@ -13,8 +16,9 @@ export async function POST({ request }) {
   console.log("Got password: " + password);
   
   let data;
-  await login(username, password).then(d => data = d);
+  //await login(username, password).then(d => data = d);
 
+  data = {id: 1, user: "admin", password: "neki"};
   console.log(data);
 
   if (data === undefined) {
@@ -24,6 +28,8 @@ export async function POST({ request }) {
       password: "",
       created_at: ""
     }
+  } else {
+
   }
 
   return json(data);

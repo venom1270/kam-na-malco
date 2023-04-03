@@ -1,5 +1,4 @@
 import { dev } from '$app/environment';
-import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from '../$types';
 
 // we don't need any JS on this page, though we'll load
@@ -13,11 +12,6 @@ export const prerender = false;
 
 export const load: PageLoad = async ({ parent }) => {
     const { user } = await parent();
-
-    if (user) {
-        throw redirect(301, "/");
-    }
-
     if (user) {
         user: user
     }

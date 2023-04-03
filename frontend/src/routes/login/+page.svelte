@@ -1,6 +1,12 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
+	import type { PageData } from "./$types";
+
+
 	let username = "";
 	let password = "";
+
+	export let data: PageData;
 
 
 	async function tryLogin() {
@@ -35,13 +41,25 @@
 
 <div class="text-column">
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<h1>Login</h1>
+	<h1>Prijava</h1>
 
-	<input type="text" placeholder="username" bind:value={username} />
+	
+	<form use:enhance method="POST">
+		<input type="text" placeholder="Uporabniško ime" name="username" bind:value={username} /><br>
+		<br>
+		<input type="password" placeholder="Geslo" name="password" bind:value={password} /><br>
+		<br>
+		<input type="submit" value="Prijava"/>
+	</form>
+
+	<!--h2>Old (POST API)</h2>
+	
+	<input type="text" placeholder="username" name="username" bind:value={username} />
 	<br>
-	<input type="password" placeholder="password" bind:value={password} />
+	<input type="password" placeholder="password" name="password" bind:value={password} />
 	<br>
-	<input type="button" value="Log in" on:click={tryLogin} />
+	<input type="submit" value="Log in" on:click={tryLogin} /-->
+
 
 
 </div>
