@@ -18,7 +18,7 @@ const unProtectedRoutes: string[] = [
 export const handle: Handle = async ({ event, resolve }) => {
     const session = event.cookies.get('session');
     const ai_tokens = event.cookies.get('ai_tokens');
-    console.log("Session: " + session);
+    //console.log("Session: " + session);
     if (!session && !unProtectedRoutes.includes(event.url.pathname))
         return redirect('/login', 'No authenticated user.');
     //const currentUser = await userRepository.fetch(session as string);
@@ -29,6 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             ai_tokens: ai_tokens
         }
     }
+
 
     if (currentUser) {
         event.locals.user = {

@@ -12,21 +12,16 @@ const openai = new OpenAIApi(configuration);
 
 let restaurantData: Restaurant[] = [];
 
-function getRestaurantData(): Restaurant[] {
+async function getRestaurantData(): Promise<Restaurant[]> {
     if (restaurantData == null || restaurantData.length == 0) {
-        loadRestaurantData();
+        await loadRestaurantData();
     }
-
-    //console.log("RES DATA: " + restaurantData);
-
     return restaurantData;
 }
 
 /** @type {import('./$types').RequestHandler} */
 export async function PUT({ request }) {
-    let d = getRestaurantData();
-    //console.log(d);
-    return json(d);
+    return json(await getRestaurantData());
 }
 
 /** @type {import('./$types').RequestHandler} */
@@ -68,7 +63,7 @@ export async function POST({ request, cookies }) {
 
     try {
         data = await openai.createChatCompletion(openAiRequest)
-      } catch (error) {
+    } catch (error) {
         /*if (error.response) {
             console.log(error.response.status);
             console.log(error.response.data);
@@ -76,7 +71,7 @@ export async function POST({ request, cookies }) {
             console.log(error.message);
         }*/
         return json(error);
-      }
+    }
 
     //console.log(data);
   
@@ -84,7 +79,7 @@ export async function POST({ request, cookies }) {
       data = null;
     }
 
-    return json(data);
+    return json(data?.data);
 
     /*let completion_data = data?.data.choices;
     console.log(completion_data);

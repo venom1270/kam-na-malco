@@ -31,25 +31,26 @@ export async function load() {
     };
 }*/
 /** @type {import('./$types').PageLoad} */
-export async function load({ fetch, params, parent }): PageLoad {
-    const response = await fetch('/malca', {
+export async function load({ fetch, params, parent }): Promise<PageLoad> {
+    /*const response = await fetch('/malca', {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
         }
-    });
+    });*/
 
 
-    let data = await response.json()
-    //console.log("QWE: " + data)
-    //console.log(data);
+    //let data = await response.json()
 
     const { user } = await parent();
-    if (user) {
+
+    return {
         user: user
     }
 
-    return {
+    /*console.log("RETURNING DATA", data)
+    console.log(response)*/
+    /*return {
         today_data: data ?? [],
-    };
+    };*/
 }

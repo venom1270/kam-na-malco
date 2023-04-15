@@ -4,23 +4,11 @@
 
 	export let data;
 
-	/*async function logout() {
-		console.log("logging out...");
-		const response = await fetch('/profile', {
-			method: 'POST',
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
-
-
-		let data = await response.json()
-		console.log(data);
-
-		if (data.success) {
-			alert("Logout successful!");
-		}
-	}*/
+	let aiTokens = "?";
+	if (typeof localStorage !== "undefined") {
+        aiTokens = localStorage.getItem("aiTokens") ?? "?";
+	}
+	
 	
 </script>
 
@@ -35,7 +23,7 @@
 	
 	<h1>Pozdravljen {data.user.name}</h1>
 
-    <h4>Število žetonov: {data.user.ai_tokens}</h4>
+    <h4>Število žetonov: {aiTokens}</h4>
 
 	<form use:enhance method="POST">
 		<input type="submit" value="Odjava"/>

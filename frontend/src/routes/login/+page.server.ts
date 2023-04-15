@@ -11,7 +11,7 @@ export const actions = {
     
       console.log("Got username: " + username);
       console.log("Got password: " + password);
-      
+
       let data;
       await login(username, password).then(d => data = d);
 

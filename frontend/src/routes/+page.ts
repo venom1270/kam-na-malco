@@ -9,6 +9,10 @@ export const prerender = false;
 export const load: PageLoad = async ({ parent }) => {
     const { user } = await parent();
     if (user) {
+        // This is weird... prerender is set to false yet it seems to run on serverside sometimes anyway...
+        if (typeof localStorage !== "undefined") {
+            localStorage.setItem("aiTokens", user.ai_tokens);
+        }
         user: user
     }
     console.log("PAGELOAD: " + user);
