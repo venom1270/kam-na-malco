@@ -151,7 +151,6 @@ for (name, r) in restaurants:
     print(restaurant_id)
 
     add_to_db = False
-    # today = datetime.now().strftime("%Y-%m-%d")
     today_menu = supabase.table("Menu").select("*").eq("date", today).eq("id_restaurant", restaurant_id).execute()
     if len(today_menu.data) == 0:
         add_to_db = True
